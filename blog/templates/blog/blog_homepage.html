@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+
+{% block title %} {{title}} {% endblock title %}
+
+{% block content %}
+<h1>Following posts so far</h1>
+<ol>
+    {% for post in instances %}
+    <li>
+        <a href="{% url 'blog:retrieve' post.slug %}"> {{post.title}} </a>
+    </li>
+    {% endfor %}
+</ol>
+<a href="{% url 'blog:create' %}" class="btn btn-primary btn-block">Create new post</a>
+{% endblock %}

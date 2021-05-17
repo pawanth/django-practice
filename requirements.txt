@@ -1,0 +1,8 @@
+Django==3.2.3
+Pillow
+django-allauth
+djangorestframework
+django-cors-headers
+markdown
+django-filter
+graphene-django

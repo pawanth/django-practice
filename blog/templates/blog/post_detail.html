@@ -1,0 +1,23 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %} Blog|{{object.slug}} {% endblock title %}
+
+{% block content %}
+    <h1> {{object.title}} </h1>
+    {% if user.is_authenticated %}
+        &nbsp;<a href="{% url 'blog:update' post.slug %}">Update</a>
+        &nbsp;<a href="{% url 'blog:delete' post.slug %}">Delete</a>
+    {% else %}
+        &nbsp;Update
+        &nbsp;Delete
+    {% endif %}
+
+    <p>
+        {% if object.image %} 
+            <img src="{{ post.image.url }}" alt="image for {{object.title}}" />
+        {% endif %}
+    </p>
+    <p> {{ post.content|linebreaks }} </p>
+
+{% endblock %}
