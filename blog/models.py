@@ -116,14 +116,7 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
     Deletes file from filesystem
     when corresponding object is deleted.
     """
-    list_of_models = ('Inspection',) #('Place', 'Slide', 'AboutUs')
+    list_of_models = ('Post',) #('Place', 'Slide', 'AboutUs')
     if sender.__name__ in list_of_models: # this is the dynamic part you want
-        if instance.image1 and os.path.isfile(instance.image1.path):
-            os.remove(instance.image1.path)
-            os.remove(instance.thumb1.path)
-        if instance.image2 and os.path.isfile(instance.image2.path):
-            os.remove(instance.image2.path)
-            os.remove(instance.thumb2.path)
-        if instance.image3 and os.path.isfile(instance.image3.path):
-            os.remove(instance.image3.path)
-            os.remove(instance.thumb3.path)
+        if instance.image and os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)

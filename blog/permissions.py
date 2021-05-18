@@ -11,6 +11,8 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
+        # Allow all 
+        return True
         # Write permissions are only allowed to the owner of the snippet.
         return obj.owner == request.user # TODO or condition for superuser 
 

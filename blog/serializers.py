@@ -25,4 +25,10 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id',  'user', 'title', 'slug', 'image', 'content')
-        read_only_fields = ('updated',)
+        read_only_fields = ('updated', 'user', 'slug')
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['url', 'username', 'email', 'is_staff']

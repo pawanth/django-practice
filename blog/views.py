@@ -1,18 +1,16 @@
-from django.shortcuts import render, get_object_or_404,redirect
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import HttpResponse, HttpResponseRedirect, Http404, HttpResponseForbidden
-from django.contrib import messages
-from urllib.parse import quote_plus
-
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-
+from django.contrib.auth.models import User
+from rest_framework import routers, generics, permissions, viewsets
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from .models import Post
-from .forms import PostForm
-# Create your views here.
+from .permissions import IsOwnerOrReadOnly
+from .serializers import PostSerializer, UserSerializer
 
+# Class based views
 class BlogListView(ListView):
     model = Post
     context_object_name = 'instances'  # default object_list
@@ -44,32 +42,22 @@ class BlogDeleteView(DeleteView):
     model = Post
     success_url = reverse_lazy('blog:blog-list')
 
-
-from django.contrib.auth.models import User
-from django.db.models import Q, Count
-from django.contrib import messages
-from rest_framework import generics, permissions, status, viewsets
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
-import datetime
-from django.shortcuts import render, get_object_or_404,redirect 
-from django.views.generic import TemplateView
-from django.core.paginator import Paginator
-from blog.models import Post
-from .permissions import IsOwnerOrReadOnly
-from .serializers import PostSerializer
+# DRF Views
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+    def enforce_csrf(self, request):
+        return  # To not perform the csrf check previously happening
 
 #API Viwes
-class PostList(generics.ListCreateAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+class PostViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
 
-class PostDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (permissions.IsAuthenticated,IsOwnerOrReadOnly)
+    Additionally we also provide an extra `highlight` action.
+    """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    permission_classes = [IsOwnerOrReadOnly, # permissions.IsAuthenticatedOrReadOnly,
+    ]
+router = routers.DefaultRouter()
+router.register(r'', PostViewSet)
