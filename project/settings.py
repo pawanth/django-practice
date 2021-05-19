@@ -27,14 +27,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'blog',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'rest_framework',
     'corsheaders',
+    # 'django-filters',
     'graphene_django',
+    'blog',
 
 ]
 
@@ -180,10 +181,10 @@ REST_FRAMEWORK = {
     ),
 }
 
-# Graphql setup
-GRAPHENE = {
-    "SCHEMA": "blog.schema.schema"
-}
+# # Graphql setup, setting inside urls
+# GRAPHENE = {
+#     "SCHEMA": "blog.schema.schema"
+# }
 
 # CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [

@@ -8,6 +8,7 @@ from graphene_django.views import GraphQLView
 # from blog.views import router
 
 from blog.views import *
+from .schema import schema
 
 urlpatterns = [
     path('admin/', admin.site.urls), # admin portal
@@ -15,7 +16,7 @@ urlpatterns = [
     # rest_framework
     path('posts/', include('blog.urls')),
     # graphql using graphene-django
-    path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
 
     
     # blog app using given paths
