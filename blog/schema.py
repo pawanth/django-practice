@@ -23,10 +23,6 @@ class PostNode(DjangoObjectType):
             'user_id' : ['exact'],
         }
         interfaces = (relay.Node, )
-class PostType(DjangoObjectType):
-    class Meta:
-        model = Post
-        fields = '__all__'
 
 class Query(ObjectType):
     user = relay.Node.Field(UserNode)
@@ -41,7 +37,7 @@ class PostMutation(relay.ClientIDMutation):
         content = graphene.String(required=False)
         id = graphene.ID(required=False)
         delete = graphene.Boolean()
-    post = graphene.Field(PostType)
+    post = graphene.Field(PostNode)
     ok = graphene.Boolean()
 
     @classmethod
