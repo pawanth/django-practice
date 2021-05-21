@@ -17,7 +17,8 @@ urlpatterns = [
     path('posts/', include('blog.urls')),
     # graphql using graphene-django
     path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
-
+    # REST User authentication
+    path('api/v1/users/', include('users.urls')),
     
     # blog app using given paths
     path('', include(([

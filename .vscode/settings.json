@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "~/Envs/django-practice/bin/python",
-    // "python.pythonPath": "~/Library/venv/bin/python",
+    // "python.pythonPath": "~/Envs/django-practice/bin/python",
+    "python.pythonPath": "~/Library/venv/bin/python",
 }

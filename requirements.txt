@@ -6,3 +6,4 @@ django-cors-headers
 markdown
 django-filter
 graphene-django
+django-rest-auth

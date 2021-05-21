@@ -26,23 +26,30 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # 3rd Party Apps
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'rest_framework',
+    'rest_auth.registration',
     'corsheaders',
-    # 'django-filters',
     'graphene_django',
+
+    # Local Apps
+    'users',
     'blog',
 
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -166,6 +173,7 @@ SITE_ID = 1 # 1
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+
 # DRF setup
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -179,6 +187,8 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.MultiPartParser',
     ),
+    'DATETIME_FORMAT': "%m/%d/%Y %I:%M%P",
+    'DEFAULT_AUTHENTICATION_CLASS': [ 'rest_framework.authentication.TokenAuthentication',],
 }
 
 # # Graphql setup, setting inside urls
@@ -194,3 +204,10 @@ CORS_ALLOWED_ORIGINS = [
     # "http://127.0.0.1:9000"
     "http://localhost:3000"
 ]
+
+AUTH_USER_MODEL = 'users.CustomUser'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_UNIQUE_EMAIL = True
