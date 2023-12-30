@@ -1,26 +1,26 @@
 from django.urls import path
 
-from . import views
+from polls import views
 
 app_name = 'polls'
 urlpatterns = [
     # e.g. /polls/
     path(
         '', 
-        views.index, 
+        views.IndexView.as_view(), 
         name='index'
     ),
     # e.g. /polls/5/
     path(
-        'specifics/<int:question_id>/',
-        views.detail,
+        'specifics/<int:pk>/',
+        views.DetailView.as_view(),
         name='detail',
     ),
 
     # e.g. polls/5/results/
     path(
-        '<int:question_id>/results/',
-        views.results,
+        '<int:pk>/results/',
+        views.ResultView.as_view(),
         name='results',
     ),
 

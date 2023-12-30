@@ -3,7 +3,7 @@ import datetime
 from django.db import models
 from django.utils import timezone
 
-# Create your models here
+
 class Question(models.Model):
     '''
     Db table for questions.
@@ -16,7 +16,9 @@ class Question(models.Model):
 
     def was_published_recently(self):
         '''Check if question is recently published, i.e. within last 24 hours'''
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.pub_date <= now
+
 
 class Choice(models.Model):
     '''
