@@ -1,2 +1,4 @@
 django==5.0
 django-debug-toolbar
+psycopg2
+# psycopg2-binary

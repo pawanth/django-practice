@@ -1,8 +1,44 @@
 version: "3.9"
 services:
-    web:
-        build: .
-        environment:
-            - SECRET_KEY=23408728djlkjd37nmckdllsorhh377889s900&
-        ports:
-            - "8000:8000"
+  web:
+    build: .
+    ports:
+        - "8000:8000"
+    volumes:
+      - ./src/:/usr/src/code/
+    working_dir: /usr/src/code/
+    restart: on-failure
+    command: ["bash", "/usr/src/code/bootstrap.sh"]  # Execute the bootstrap script
+    depends_on:  # Define dependencies if needed (e.g., database)
+      db:
+        condition: service_started
+      rabbitmq:
+       condition: service_started
+      redis:
+       condition: service_started
+    env_file: .env  # Load environment variables from .env
+
+  db:
+    image: "postgres:14-alpine" # Use a pre-built PostgreSQL image
+    environment:
+      POSTGRES_USER: ${DB_USER}  # Set database user from environment variables
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/  # Persist database data
+    restart: on-failure
+    ports:
+      - 2345:5432
+    command: -p 2345
+
+  rabbitmq:
+    image: rabbitmq:3.12.11-alpine
+    container_name: rabbitmq
+    restart: on-failure
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis
+    restart: on-failure
+    depends_on:
+      - db
