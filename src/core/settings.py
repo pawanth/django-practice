@@ -25,13 +25,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY',
     'django-insecure-io1xm+z(np6feb_s)ty2e6$8nt^@m(sp9pphodyf=i0arua^uk')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'polls.apps.PollsConfig',
     'django.contrib.admin',
