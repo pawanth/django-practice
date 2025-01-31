@@ -1,4 +1,4 @@
-# Sample Django Project to re-practice latest django features using django5
+Sample django project to practice revisit each upgrade of django with all test stuff available on django official website
 
 ## Using simple DOCKERFILE
 
